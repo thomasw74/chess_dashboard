@@ -52,3 +52,7 @@ def load_games_dataframe(username):
 
 def options(df, column):
     return [{'label': t, 'value': t} for t in df[column].unique()]
+
+
+def last_games(df):
+    return tuple(df.iloc[0:3].reset_index()[['Date', 'Opponent', 'Site']].values.reshape(-1))
