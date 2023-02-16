@@ -11,30 +11,20 @@ app.layout = html.Div([
     dcc.Graph(
         id='graph',
         figure=plots.game_count_heatmap(df, 'Standard', '300+3')),
-    html.Div([
-        html.P([html.B('Date', id='games_date_1'), html.B(': '), html.A('Test', href='Huhu', id='games_href_1')]),
-        html.P([html.B('Date', id='games_date_2'), html.B(': '), html.A('Test', href='Huhu', id='games_href_2')]),
-        html.P([html.B('Date', id='games_date_3'), html.B(': '), html.A('Test', href='Huhu', id='games_href_3')])
+    html.Div(id='last_games', children=[
+        'Test'
     ])])
 
 
 @app.callback(
     Output(component_id='graph', component_property='figure'),
-    Output(component_id='games_date_1', component_property='children'),
-    Output(component_id='games_href_1', component_property='children'),
-    Output(component_id='games_href_1', component_property='href'),
-    Output(component_id='games_date_2', component_property='children'),
-    Output(component_id='games_href_2', component_property='children'),
-    Output(component_id='games_href_2', component_property='href'),
-    Output(component_id='games_date_3', component_property='children'),
-    Output(component_id='games_href_3', component_property='children'),
-    Output(component_id='games_href_3', component_property='href'),
+    Output(component_id='last_games', component_property='children'),
     Input(component_id='variant_dd', component_property='value'),
     Input(component_id='timecontrol_dd', component_property='value')
 )
 def update_plot(variant, timecontrol):
-    return plots.game_count_heatmap(df, variant, timecontrol), *utils.last_games(df)
+    return plots.game_count_heatmap(df, variant, timecontrol), plots.last_games_list(df, variant, timecontrol, 5)
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=False)
